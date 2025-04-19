@@ -16,6 +16,7 @@ function App() {
   const [expenseLabel, setExpenseLabel] = useState('');
   const [participants, setParticipants] = useState([{ address: '', amountPaid: 0, amountOwed: 0 }]);
   const [showAddExpense, setShowAddExpense] = useState(false);
+  const [totalUsers, setTotalUsers] = useState(0);
   const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE";
 
   useEffect(() => {
@@ -75,6 +76,7 @@ function App() {
           setName(person.name);
           await loadExpenses();
           await loadPeople();
+          setTotalUsers((await contract.gettotal()).toNumber());
         }
       } catch (error) {
         console.error("Error checking registration:", error);
@@ -239,6 +241,8 @@ function App() {
     }
   };
 
+  const fetchTotalUsers = () => contract.gettotal().then(total => setTotalUsers(total.toNumber()));
+
   return (
     <div className="App">
       <header className="App-header">
@@ -265,9 +269,12 @@ function App() {
           <div>
             <h2>Welcome, {name}</h2>
             <p>Account: {account}</p>
-            {/* Display total number of registered users */}
-            <p>Total Registered Users: {people.length}</p>
             
+            <div>
+              <button onClick={fetchTotalUsers}>Refresh Total Users</button>
+              <p>Total Registered Users: {totalUsers}</p>
+            </div>
+
             <button onClick={() => setShowAddExpense(!showAddExpense)}>
               {showAddExpense ? "Cancel" : "Add Expense"}
             </button>
