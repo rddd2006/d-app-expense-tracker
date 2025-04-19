@@ -12,3 +12,6 @@ the feature i am choosing is to get total no of registered users the codefix is 
     #<h3>People ({people.length} registered)</h3>
     i am saving copy of the file as a text file
    
+update added fetchusers function in app js to call solidity gettotal function
+added a button for user to interact with solidity function
+note i did not add contract error case in fetchuser function
